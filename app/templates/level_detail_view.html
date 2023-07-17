@@ -1,0 +1,46 @@
+{% extends "horzontal_dashboard.html" %}
+{% block content %}
+{% load static %}
+
+
+<!--    <div class="clearfix"></div>-->
+
+<!-- Title Header Start -->
+<section class="inner-header-title" style="background-image:url(assets/img/banner-10.jpg);">
+<div><h1>{{title}}</h1></div>
+</section>
+<div><div style="margin:20px"> {{title}} <td><a href="{% url 'app:Add_level' %}" class="btn-sm  btn-primary" id="Add" style="float:right;margin-right:60px">Add</a></div></div>
+<table class="my-table">
+  <thead>
+    <tr>
+        <th>ID</th>
+      <th>Name</th>
+      <th>Acronym</th>
+      <th>description</th>
+        <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in data %}
+    <tr>
+      <td>{{item.id}}</td>
+      <td>{{item.name}}</td>
+        <td>{{item.acronym}}</td>
+        <td>{{item.description}}</td>
+     <td><a href="{% url 'app:edit_level' id=item.id %}" class="btn btn-sm btn-primary" id="edit">Edit</a>
+          <a href="{% url 'app:delete_leve' id=item.id %}" class="btn btn-sm btn-danger" id="delete">Delete</a>
+            {% if item.status == True %}
+          <a href="{% url 'app:update_level' action='active' id=item.id  %}" class="btn btn-sm btn-info" id="activbtn">Active </a>
+            {% else %}
+
+            <a href="{% url 'app:update_level' action='deactive' id=item.id %}" class="btn btn-sm btn-warning" id="deactive">Disabled </a>
+
+          {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+    <!-- Add more rows here -->
+  </tbody>
+</table>
+
+{% endblock %}

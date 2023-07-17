@@ -1,0 +1,49 @@
+
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<!-- login35:56-->
+<head>
+	<!-- Basic Page Needs
+	================================================== -->
+	<title>Job Stock - Responsive Job Portal Bootstrap Template</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- CSS
+	================================================== -->
+	<link rel="stylesheet" href="{% static '/assets/plugins/css/plugins.css' %}">
+
+    <!-- Custom style -->
+    <link href="{% static '/assets/css/style.css' %}" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" id="jssDefault" href="{% static '/assets/css/colors/green-style.css' %}">
+
+	</head>
+	<body class="simple-bg-screen" style="background-image:url({% static '/assets/img/banner-10.jpg' %});">
+		<div class="Loader"></div>
+		<div class="wrapper">
+
+			<!-- Title Header Start -->
+			<section class="login-screen-sec">
+				<div class="container">
+					<div class="login-screen">
+
+						<form method="POST">
+							{% csrf_token %}
+                            <center><h2 class="img-responsive">Login</h2></center>
+							<input type="text" class="form-control" placeholder="Useraname" name="uname" id="uname" required>
+							<input type="password" class="form-control" placeholder="Password" name="psw" id="psw" required>
+							<button class="btn btn-login" type="submit">Login</button>
+							<span><a href="#"> Forget Password</a></span>
+							<span>Note: Only Admin can Login</span>
+						</form>
+					</div>
+				</div>
+			</section>
+
+
+        </div>
+    </body>
+</html>

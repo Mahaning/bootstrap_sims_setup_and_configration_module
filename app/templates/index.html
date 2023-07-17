@@ -1,0 +1,28 @@
+{% extends "horzontal_dashboard.html" %}
+{% block content %}
+{% load static %}
+
+<section class="inner-header-title" style="background-image:url(assets/img/banner-10.jpg);">
+<div><h1>Welocme {{user.username}}</h1></div>
+</section><div> {{user.username}}</div>
+<section class="full-detail-description full-detail gray-bg">
+<div class="container">
+	<div class="col-md-12 col-sm-12">
+		<div class="full-card">
+		  <div class="deatil-tab-employ tool-tab">
+				<ul class="nav simple nav-tabs" id="simple-design-tab">
+					<li><a href="#settings">Dashboard</a></li>
+				</ul>
+				<form class="" method="POST" action= "" enctype="multipart/form-data">
+                    {% csrf_token %}
+ 				<!-- Start All Sec -->
+
+				<!-- Start All Sec -->
+            </form>
+			</div>
+		</div>
+	</div>
+</div>
+</section>
+
+{% endblock %}

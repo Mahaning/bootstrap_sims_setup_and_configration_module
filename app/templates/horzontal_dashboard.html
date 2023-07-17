@@ -1,0 +1,460 @@
+{% load static %}
+<!--<!doctype html>-->
+<html lang="en">
+
+
+<head>
+    <!-- Basic Page Needs==================================================-->
+    <title>SIMS</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- CSS==================================================-->
+<!--	 <link rel="stylesheet" href="{% static 'assets/bootstrap_5/css/bootstrap.min.css' %}">-->
+<!--    <link rel="stylesheet" href="{% static 'assets/bootstrap_datetimepicker/bootstrap_datetimepicker.min.css' %}">-->
+<!--    <link rel="stylesheet" href="{% static 'assets/bootstrap_select/bootstrap_select.min.css' %}">-->
+    <link rel="stylesheet" href="{% static 'assets/datatables/dataTables.bootstrap5.min.css' %}">
+<!--    <link rel="stylesheet" href="{% static 'assets/jasny_bootstrap/jasny_bootstrap.min.css' %}">-->
+<!--    <link rel="stylesheet" href="{% static 'assets/fonts/fontawesome/css/all.css' %}">-->
+<!--    <link rel="stylesheet" href="{% static 'assets/fonts/b-icons/font/bootstrap-icons.css' %}">-->
+    <link rel="stylesheet" href="{% static '/assets/plugins/css/plugins.css' %}">
+    <link href="{% static '/assets/css/style.css' %}" rel="stylesheet">
+<!--    {% comment %} <link type="text/css" rel="stylesheet" id="jssDefault" href="{% static '/assets/css/colors/green-style.css' %}"> </head> {% endcomment %}-->
+<style>
+        .my-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.my-table th,
+.my-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.my-table th {
+  background-color: #f5f5f5;
+}
+
+.my-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.my-table .edit-button,
+.my-table .delete-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.my-table .edit-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.my-table .delete-button {
+  background-color: #f44336;
+  color: white;
+}
+
+    </style>
+
+<body>
+    <div class="Loader"></div>
+    <div class="wrapper">
+        <nav class="navbar navbar-default navbar-fixed navbar-light white bootsnav">
+            <div class="container">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu"><i class="fa fa-bars"></i></button>
+                {% comment %} <div class="navbar-header"> {% endcomment %}
+                    {% comment %} <a class="navbar-brand" href="index.html"><img src="{% static 'assets/img/can-2.png' %}" class="dashboard-avatar-thumb" alt=""></a> {% endcomment %}
+                {% comment %} </div> {% endcomment %}
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <ul class="nav navbar-nav navbar-left" data-in="fadeInDown" data-out="fadeOutUp">
+                        <li>
+                            {% comment %} <div class="col-lg-1 col-md-4"> {% endcomment %}
+                            {% comment %} <div class="side-dashboard"> {% endcomment %}
+                        {% comment %} <div class="dashboard-avatar">
+						
+							<div class="dashboard-avatar-thumb">
+								<img src=" " class="img-avater" alt="" />
+							</div>
+							
+							{% comment %} <div class="dashboard-avatar-text"> {% endcomment %}
+								{% comment %} <h4>{{request.session.firstname}} {{request.session.lastname}}</h4> {% endcomment %}
+								
+							{% comment %} </div>  {% endcomment %}
+							
+						{% comment %} </div> {% endcomment %}
+                    {% comment %} </div> {% endcomment %}
+                {% comment %} </div> {% endcomment %}
+            </li>
+						<li><a href="{% url 'app:index' %}">Home</a></li>
+						 <li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Qualification</a>
+								<ul class="dropdown-menu animated fadeOutUp">
+									<li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Qualification</a>
+											<ul class="dropdown-menu animated fadeOutUp">
+												<li><a href="{% url 'app:Add_stream' %}">Add stream</a></li>
+                        						<li><a href="{% url 'app:Add_level' %}">Add level </a></li>
+                        						<li><a href="{% url 'app:Add_specialization' %}">Add specialization</a></li>
+												<li><a href="{% url 'app:Add_qualification' %}"> Add Qualifications</a></li>
+												<li><a href="{% url 'app:Add_Designation' %}"> Add Designation</a></li>
+												<li><a href="{% url 'app:Add_Commitee' %}"> Add Committe</a></li>
+												<li><a href="{% url 'app:Add_fee_catogory' %}"> Add Fee Catogory</a></li>
+											</ul>
+										</li>
+									<li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown">View Qualification Data</a>
+											<ul class="dropdown-menu animated fadeOutUp">
+												<li><a href="{% url 'app:stream_detail_view' %}">View stream</a></li>
+                        						<li><a href="{%  url 'app:level_view' %}">View level </a></li>
+                        						<li><a href="{% url 'app:specialization_view' %}">View specialization</a></li>
+												<li><a href="{% url 'app:qualification_view' %}"> View  Qualifications</a></li>
+												<li><a href="{% url 'app:View_Designation' %}"> View Designation</a></li>
+												<li><a href="{% url 'app:View_Committe' %}"> View Committe</a></li>
+												<li><a href="{% url 'app:View_fee_catogory' %}"> View Fee Catogory</a></li>
+											</ul>
+										</li>
+									</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Address</a>
+								<ul class="dropdown-menu animated fadeOutUp">
+									<li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Address</a>
+											<ul class="dropdown-menu animated fadeOutUp">
+												<li><a href="{% url 'app:Add_country' %}">Add Country</a></li>
+                        						<li><a href="{% url 'app:Add_state' %}">Add State </a></li>
+                        						<li><a href="{% url 'app:Add_dist' %}">Add District</a></li>
+												<li><a href="{% url 'app:Add_talluk' %}"> Add Talluk</a></li>
+												<li><a href="{% url 'app:Add_city' %}"> Add City</a></li>
+												<li><a href="{% url 'app:Add_pincode' %}"> Add Pincode</a></li>
+											</ul>
+										</li>
+									<li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown">View Address Data</a>
+											<ul class="dropdown-menu animated fadeOutUp">
+												<li><a href="{% url 'app:country_view' %}">View Country</a></li>
+                        						<li><a href="{% url 'app:state_view' %}">View State </a></li>
+                        						<li><a href="{% url 'app:dist_view' %}">View District</a></li>
+												<li><a href="{% url 'app:talluk_view' %}"> View Talluk</a></li>
+												<li><a href="{% url 'app:city_view' %}"> View City</a></li>
+												<li><a href="{% url 'app:pincode_view' %}"> View Pincode</a></li>
+											</ul>
+										</li>
+									</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Personal Details</a>
+								<ul class="dropdown-menu animated fadeOutUp">
+									<li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Personal Details</a>
+											<ul class="dropdown-menu animated fadeOutUp">
+												<li><a href="{% url 'app:Add_medium' %}"> Add Medium</a></li>
+												<li><a href="{% url 'app:Add_Languge' %}"> Add Languge</a></li>
+												<li><a href="{% url 'app:Add_religion' %}"> Add Religion</a></li>
+												<li><a href="{% url 'app:Add_caste' %}"> Add Caste</a></li>
+												<li><a href="{% url 'app:Add_subcaste' %}"> Add Subcaste</a></li>
+											</ul>
+										</li>
+									<li class="dropdown">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown">View Personal Details Data</a>
+											<ul class="dropdown-menu animated fadeOutUp">
+												<li><a href="{% url 'app:view_medium' %}"> View Medium</a></li>
+												<li><a href="{% url 'app:view_Languge' %}"> View Languge</a></li>
+												<li><a href="{% url 'app:view_Religion' %}"> View Religion</a></li>
+												<li><a href="{% url 'app:view_Caste' %}"> View Caste</a></li>
+												<li><a href="{% url 'app:view_Subcaste' %}"> View Subcaste</a></li>
+											</ul>
+										</li>
+									</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Fee Catogory</a>
+								<ul class="dropdown-menu animated fadeOutUp">
+									<li class="dropdown">
+										<a href="{% url 'app:Add_fee_catogory' %}" class="dropdown" >Add Fee Catogory</a>
+										</li>
+									<li class="dropdown">
+										<a href="{% url 'app:View_fee_catogory' %}" class="dropdown" > View Fee Catogory</a>
+										</li>
+									</ul>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
+						<li>{{user.username}}</li>
+						<li class="left-br"><a href="{% url 'app:logout' %}"  data-toggle="modal" data-target="" class="signin">Logout</a></li>
+					</ul>
+
+                </div>
+            </div>
+        </nav>
+       
+        {% block content %}
+
+
+       {% endblock %}
+	   <footer class="dark-footer skin-dark-footer">
+		<div>
+			<div class="container">
+				<div class="row">
+					
+					<div class="col-lg-3 col-md-3">
+						<div class="footer-widget">
+							<img src="assets/img/logo-white.png" class="img-footer" alt="" />
+							<div class="footer-add">
+								<p>KLE Technological University,</br> Vidyanagar,Hubballi,Karnataka,580021</p>
+								<p><strong>Email:</strong></br>pravenyainfotect@gmail.com</p>
+								<p><strong>Call:</strong></br>91 9380370518</p>
+							</div>
+							
+						</div>
+					</div>		
+					<div class="col-lg-2 col-md-2">
+						<div class="footer-widget">
+							<h4 class="widget-title">Navigations</h4>
+							<ul class="footer-menu">
+								<li><a href="home-6.html">New Home Design</a></li>
+								<li><a href="browse-candidate-list.html"></a></li>
+								<li><a href="browse-employer-list.html"></a></li>
+								<li><a href="advance-search-2.html"></a></li>
+								<li><a href="checkout.html"></a></li>
+							</ul>
+						</div>
+					</div>
+							
+					<div class="col-lg-2 col-md-2">
+						<div class="footer-widget">
+							<h4 class="widget-title">The Highlights</h4>
+							<ul class="footer-menu">
+								<li><a href="index-2.html"></a></li>
+								<li><a href="index-3.html"></a></li>
+								<li><a href="index-4.html"></a></li>
+								<li><a href="index-5.html"></a></li>
+								<li><a href="login.html">LogIn</a></li>
+							</ul>
+						</div>
+					</div>
+					
+					<div class="col-lg-2 col-md-2">
+						<div class="footer-widget">
+							<h4 class="widget-title">My Account</h4>
+							<ul class="footer-menu">
+								<li><a href="candidate-dashboard.html">Dashboard</a></li>
+								<li><a href="applications.html">Applications</a></li>
+								<li><a href="packages.html"></a></li>
+								<li><a href="candidate-resume.html">.</a></li>
+								<li><a href="register.html">SignUp Page</a></li>
+							</ul>
+						</div>
+					</div>
+					
+					<div class="col-lg-3 col-md-3">
+						<div class="footer-widget">
+							<h4 class="widget-title">Download Apps</h4>
+							<a href="#" class="other-store-link">
+								<div class="other-store-app">
+									<div class="os-app-icon">
+										<i class="ti-android theme-cl"></i>
+									</div>
+									<div class="os-app-caps">
+										Google Play
+										<span>Get It Now</span>
+									</div>
+								</div>
+							</a>
+							<a href="#" class="other-store-link">
+								<div class="other-store-app">
+									<div class="os-app-icon">
+										<i class="ti-apple theme-cl"></i>
+									</div>
+									<div class="os-app-caps">
+										App Store
+										<span>Now it Available</span>
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="row align-items-center">
+					
+					<div class="col-lg-6 col-md-6">
+						<p class="mb-0">© 2023 SIMS. Designd By <a href="">gourish and Mahaning</a> All Rights Reserved</p>
+					</div>
+					
+					<div class="col-lg-6 col-md-6 text-right">
+						<ul class="footer-bottom-social">
+							<li><a href="#"><i class="ti-facebook"></i></a></li>
+							<li><a href="#"><i class="ti-twitter"></i></a></li>
+							<li><a href="#"><i class="ti-instagram"></i></a></li>
+							<li><a href="#"><i class="ti-linkedin"></i></a></li>
+						</ul>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					
+					<div class="new-logwrap">
+				
+						<div class="form-group">
+							<label>Username</label>
+							<div class="input-with-icon">
+								<input type="text" class="form-control" placeholder="Enter Your Username">
+								<i class="theme-cl ti-user"></i>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label>Email</label>
+							<div class="input-with-icon">
+								<input type="email" class="form-control" placeholder="Enter Your Email">
+								<i class="theme-cl ti-email"></i>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label>Password</label>
+							<div class="input-with-icon">
+								<input type="password" class="form-control" placeholder="Enter Your Password">
+								<i class="theme-cl ti-lock"></i>
+							</div>
+						</div>
+						
+						<div class="form-groups">
+							<button type="submit" class="btn btn-primary theme-bg full-width">Register</button>
+						</div>
+						
+						<div class="forget-account text-center">
+							<a class="theme-cl" href="#">Forget Password?</a>
+						</div>
+						
+						<div class="social-devider">
+							<span class="line"></span>
+							<span class="circle">Or</span>
+						</div>
+						
+						<div class="social-login row">
+							
+							<div class="col-md-6">
+								<a href="#" class="jb-btn-icon social-login-facebook"><i class="fa fa-facebook"></i>Facebook</a>
+							</div>
+							
+							<div class="col-md-6">
+								<a href="#" class="jb-btn-icon social-login-google"><i class="fa fa-google-plus"></i>Google</a>
+							</div>
+							
+							<div class="col-md-6">
+								<a href="#" class="jb-btn-icon social-login-twitter"><i class="fa fa-twitter"></i>Twitter</a>
+							</div>
+							
+							<div class="col-md-6">
+								<a href="#" class="jb-btn-icon social-login-linkedin"><i class="fa fa-linkedin"></i>Linkedin</a>
+							</div>
+							
+						</div>
+						
+						<div class="register-account text-center">
+							Don't have an account? <a class="theme-cl" href="register.html">Register</a>
+						</div>
+						
+					</div>
+					
+				</div>
+				</div>
+		</div>
+	</div>   
+
+	
+	<button class="w3-button w3-teal w3-xlarge w3-right" onclick="openRightMenu()"><i class="spin fa fa-cog" aria-hidden="true"></i></button>
+	<div class="w3-sidebar w3-bar-block w3-card-2 w3-animate-right" style="display:none;right:0;" id="rightMenu">
+		<button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
+		<ul id="styleOptions" title="switch styling">
+			<li>
+				<a href="javascript: void(0)" class="cl-box blue" data-theme="colors/blue-style"></a>
+			</li>
+			<li>
+				<a href="javascript: void(0)" class="cl-box red" data-theme="colors/red-style"></a>
+			</li>
+			<li>
+				<a href="javascript: void(0)" class="cl-box purple" data-theme="colors/purple-style"></a>
+			</li>
+			<li>
+				<a href="javascript: void(0)" class="cl-box green" data-theme="colors/green-style"></a>
+			</li>
+			<li>
+				<a href="javascript: void(0)" class="cl-box dark-red" data-theme="colors/dark-red-style"></a>
+			</li>
+			<li>
+				<a href="javascript: void(0)" class="cl-box orange" data-theme="colors/orange-style"></a>
+			</li>
+			<li>
+				<a href="javascript: void(0)" class="cl-box sea-blue" data-theme="colors/sea-blue-style "></a>
+			</li>
+			<li>
+				<a href="javascript: void(0)" class="cl-box pink" data-theme="colors/pink-style"></a>
+			</li>
+		</ul>
+	</div>
+
+	<script type="text/javascript" src="{% static '/assets/plugins/js/jquery.min.js' %}"></script>
+	<script type="text/javascript" src="{% static '/assets/plugins/js/viewportchecker.js' %}"></script>
+	<script type="text/javascript" src="{% static '/assets/plugins/js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static '/assets/plugins/js/bootsnav.js' %}"></script>
+	<script type="text/javascript" src="{% static '/assets/plugins/js/select2.min.js' %}"></script>
+	<script type="text/javascript" src="{% static '/assets/plugins/js/wysihtml5-0.3.0.js' %}"></script>
+	<script type="text/javascript" src="{% static '/assets/plugins/js/bootstrap-wysihtml5.js' %}"></script>
+	<script type="text/javascript" src="{% static '/assets/plugins/js/datedropper.min.js' %}"></script>
+	<script type="text/javascript" src="{% static '/assets/plugins/js/dropzone.js' %}"></script>
+	<script type="text/javascript" src="{% static '/assets/plugins/js/loader.js' %}"></script>
+	<script type="text/javascript" src="{% static '/assets/plugins/js/owl.carousel.min.js' %}"></script>
+	<script type="text/javascript" src="{% static '/assets/plugins/js/slick.min.js' %}"></script>
+	<script type="text/javascript" src="{% static '/assets/plugins/js/gmap3.min.js' %}"></script>
+	<script type="text/javascript" src="{% static '/assets/plugins/js/jquery.easy-autocomplete.min.js' %}"></script>
+	<!-- Custom Js -->
+	<script src="{% static '/assets/js/custom.js' %}"></script><script type="text/javascript" src="{% static '/assets/plugins/js/counterup.min.js' %}"></script>
+<script src="{% static '/assets/js/jQuery.style.switcher.js' %}"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#styleOptions').styleSwitcher();
+	});
+</script>
+<script>
+	function openRightMenu() {
+		document.getElementById("rightMenu").style.display = "block";
+	}
+
+	function closeRightMenu() {
+		document.getElementById("rightMenu").style.display = "none";
+	}
+</script>
+<!--<script src="{% static 'assets/common_js/jquery.min.js' %}"></script>-->
+<!--<script src="{% static 'assets/common_js/popper.min.js' %}"></script>-->
+<!--<script src="{% static 'assets/common_js/moment.min.js' %}"></script>-->
+<!--<script src="{% static 'assets/common_js/lodash.min.js' %}"></script>-->
+<!--<script src="{% static 'assets/common_js/jscolor.min.js' %}"></script>-->
+<!--<script src="{% static 'assets/common_js/sweet_alert.min.js' %}"></script>-->
+<!--&lt;!&ndash;<script src="{% static '/JS/dropdown.js' %}"></script>&ndash;&gt;-->
+<!--<script src="{% static 'assets/bootstrap_datetimepicker/bootstrap_datetimepicker.min.js' %}"></script>-->
+<!-- <script src="{% static 'assets/bootstrap_select/bootstrap_select.min.js' %}"></script>-->
+<!-- <script src="{% static 'assets/datatables/dataTables.bootstrap5.min.js' %}"></script>-->
+<!-- <script src="{% static 'assets/datatables/jquery.dataTables.min.js' %}"></script>-->
+<!--<script src="{% static  'assets/jasny_bootstrap/jasny_bootstrap.min.js' %}"></script>-->
+</div>
+</body>
+</html>

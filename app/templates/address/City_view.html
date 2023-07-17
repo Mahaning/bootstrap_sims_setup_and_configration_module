@@ -1,0 +1,55 @@
+{% extends "horzontal_dashboard.html" %}
+{% block content %}
+{% load static %}
+
+
+<!--    <div class="clearfix"></div>-->
+
+<!-- Title Header Start -->
+<section class="inner-header-title" style="background-image:url(assets/img/banner-10.jpg);">
+<div><h1>{{title}}</h1></div>
+</section>
+
+<div><div style="margin:20px"> {{title}} <td><a href="{% url 'app:Add_city' %}" class="btn-sm  btn-primary" id="Add" style="float:right;margin-right:60px">Add</a></div></div>
+<table class="my-table">
+  <thead>
+    <tr>
+        <th>ID</th>
+      <th>Name</th>
+      <th>Acronym</th>
+      <th>District</th>
+      <th>Talluka</th>
+      <th>status</th>
+        <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in citydata %}
+  {% if item.talluk_status == 1 or item.dist_status ==  1 %}
+    <tr>
+      <td>{{item.id}}</td>
+      <td>{{item.name}}</td>
+        <td>{{item.acronym}}</td>
+        <td>{{item.dist}}</td>
+      <td>{{item.talluk}}</td>
+      {% if item.status == True %}
+        <td> Active</td>
+        {% else %}
+      <td> Disabled</td>
+      {% endif %}
+        <td><a href="{% url 'app:edit_City' id=item.id %}" class="btn btn-sm btn-primary" id="edit">Edit</a>
+          {% if item.status == True %}
+          <a href="{% url 'app:Status_update_City'  action='active' id=item.id  %}" class="btn btn-sm btn-info" id="activbtn">Active </a>
+            {% else %}
+          <a href="{% url 'app:Status_update_City'  action='deactive' id=item.id %}" class="btn btn-sm btn-warning" id="deactive">Disabled </a>
+          {% endif %}
+          <a href="{% url 'app:delete_City' id=item.id %}" class="btn btn-sm btn-danger" id="delete">Delete</a>
+      </td>
+    </tr>
+  {% endif %}
+  {% endfor %}
+    <!-- Add more rows here -->
+  </tbody>
+</table>
+
+{% endblock %}

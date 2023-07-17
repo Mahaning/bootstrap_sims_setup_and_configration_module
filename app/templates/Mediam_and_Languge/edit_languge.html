@@ -1,0 +1,67 @@
+{% extends "horzontal_dashboard.html" %}
+{% block content %}
+{% load static %}
+
+
+<div class="clearfix"></div>
+
+<!-- Title Header Start -->
+<section class="inner-header-title" style="background-image:url(assets/img/banner-10.jpg);">
+	<div class="container">
+<!--		<h1>Admin</h1>-->
+	</div>
+</section>
+<div class="clearfix"></div>
+<!-- Title Header End -->
+
+<!-- Candidate Profile Start -->
+<section class="detail-desc advance-detail-pr gray-bg">
+
+</section>
+
+<section class="full-detail-description full-detail gray-bg">
+<div class="container">
+	<div class="col-md-12 col-sm-12">
+		<div class="full-card">
+		  <div class="deatil-tab-employ tool-tab">
+				<ul class="nav simple nav-tabs" id="simple-design-tab">
+					<li><a href="#settings">Languge</a></li>
+				</ul>
+				<form class="" method="POST" action= "" enctype="multipart/form-data">
+                    {% csrf_token %}
+				<!-- Start All Sec -->
+				<div class="tab-content">
+
+					<div id="settings" class="  active">
+						<div class="row no-mrg">
+							<h3>Edit Languge</h3>
+							<div class="edit-pro">
+                                <div class="col-md-4 col-sm-6">
+									<label>ID</label>
+									<input type="text" class="form-control" placeholder="Enter Level Name" value="{{langdata.id}}"name="id" id="id" readonly >
+								</div>
+								<div class="col-md-4 col-sm-6">
+									<label>Languge Name</label>
+									<input type="text" class="form-control" placeholder="Enter Level Name" value="{{langdata.name}}"name="name" id="name" required >
+								</div>
+								<div class="col-md-4 col-sm-6">
+									<label>Acronym</label>
+									<input type="text" class="form-control" placeholder="Enter Acronym Level " value="{{langdata.acronym}}"name="acronym" id="acronym" required >
+								</div>
+
+								<div class="col-sm-12">
+									<button type="submit" class="btn btn-primary theme-bg full-width">Add</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End Settings -->
+				</div>
+				<!-- Start All Sec -->
+            </form>
+			</div>
+		</div>
+	</div>
+</div>
+</section>
+{% endblock %}
