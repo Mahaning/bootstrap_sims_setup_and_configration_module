@@ -1,7 +1,7 @@
 from django import forms
 
 # from .models import  stream
-from .models import specialization, level, Qualifications, stream, Country, State, Dist, City, Talluk, Pincode, medium, \
+from .models import EntryType, specialization, level, Qualifications, stream, Country, State, Dist, City, Talluk, Pincode, medium, \
     Languge, Religion, Caste, Subcaste, Designation, Committe,  FeeCategory
 
 
@@ -130,3 +130,8 @@ class FeeCategoryForm(forms.ModelForm):
     class Meta:
         model = FeeCategory
         fields = ('name', 'fee_type', 'acronym')
+
+class EntryTypeForm(forms.ModelForm):
+    class Meta:
+        model = EntryType
+        fields = ('name', 'acronym')

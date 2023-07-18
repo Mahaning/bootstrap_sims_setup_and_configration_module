@@ -261,4 +261,12 @@ class FeeCategory(models.Model):
 
 
 
+class EntryType(models.Model):
+    name=models.CharField(max_length=250)
+    acronym = models.CharField(max_length=50)
+    status = models.BooleanField(default=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    users = models.ForeignKey(User, on_delete=models.CASCADE)
+    updated_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)
 

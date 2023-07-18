@@ -6,13 +6,11 @@
 <!--    <div class="clearfix"></div>-->
 
 <!-- Title Header Start -->
-<section class="inner-header-title" style="background-image:url(assets/img/banner-10.jpg);">
-<div><h1>{{title}}</h1></div>
-</section>
-<div><div style="margin:20px"> {{title}} <td><a href="{% url 'app:Add_state' %}" class="btn-sm  btn-primary" id="Add" style="float:right;margin-right:60px">Add</a></div></div>
-
-{% if statedata %}
-<table class="my-table">
+<div class="container justify-content-center">
+  <div><h1>{{title}}</h1> <a href="{% url 'app:Add_state' %}" class="btn-sm  btn-primary" id="Add" style="float:right;text-decoration: none;">Add New Data</a></div>
+  <br>
+  <br>
+<table id="user-roles-records" class="table table-responsive-md table-bordered table-sm table-striped"cellspacing="0" width="100%">
   <thead>
     <tr>
         <th>ID</th>
@@ -36,14 +34,14 @@
         {% else %}
       <td> Disabled</td>
       {% endif %}
-        <td><a href="{% url 'app:edit_State' id=item.id %}" class="btn btn-sm btn-primary" id="edit">Edit</a>
+        <td><a href="{% url 'app:edit_State' id=item.id %}" class="btn btn-sm btn-success bi bi-pencil-square"id="edit">Edit</a>
 
           {% if item.status == True %}
-          <a href="{% url 'app:Status_update_State'  action='active' id=item.id  %}" class="btn btn-sm btn-info" id="activbtn">Active </a>
+          <a href="{% url 'app:Status_update_State'  action='active' id=item.id  %}" class="btn btn-sm btn-primary" id="activbtn"><i class="bi bi-eye"></i>Active </a>
             {% else %}
-          <a href="{% url 'app:Status_update_State'  action='deactive' id=item.id %}" class="btn btn-sm btn-warning" id="deactive">Disabled </a>
+          <a href="{% url 'app:Status_update_State'  action='deactive' id=item.id %}" class="btn btn-sm btn-warning" id="deactive"><i class="bi bi-eye-slash"></i>Disabled </a>
           {% endif %}
-          <a href="{% url 'app:delete_State' id=item.id %}" class="btn btn-sm btn-danger" id="delete">Delete</a>
+          <a href="{% url 'app:delete_State' id=item.id %}" class="btn btn-sm btn-danger" id="delete"><i class="bi bi-trash"></i>Delete</a>
       </td>
     </tr>
   {% endif %}
@@ -51,6 +49,6 @@
     <!-- Add more rows here -->
   </tbody>
 </table>
-{%endif%}
+
 
 {% endblock %}

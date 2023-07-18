@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.fields import ReadOnlyField
 
-from .models import stream, specialization, Country, State, level, Qualifications, Dist, Talluk, City, Pincode, medium, \
+from .models import EntryType, stream, specialization, Country, State, level, Qualifications, Dist, Talluk, City, Pincode, medium, \
     Languge, Religion, Subcaste, Designation, Committe, FeeCategory
 
 
@@ -184,4 +184,7 @@ class FeeCategorySerializers(serializers.ModelSerializer):
         model = FeeCategory
         fields = '__all__'
 
-
+class EntryTypeSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = EntryType
+        fields = '__all__'

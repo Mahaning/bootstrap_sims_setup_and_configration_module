@@ -3,30 +3,9 @@
 {% load static %}
 
 
-<div class="clearfix"></div>
-
-<!-- Title Header Start -->
-<section class="inner-header-title" style="background-image:url(assets/img/banner-10.jpg);">
-	<div class="container">
-<!--		<h1>Admin</h1>-->
-	</div>
-</section>
-<div class="clearfix"></div>
-<!-- Title Header End -->
-
-<!-- Candidate Profile Start -->
-<section class="detail-desc advance-detail-pr gray-bg">
-
-</section>
-
-<section class="full-detail-description full-detail gray-bg">
-<div class="container">
-	<div class="col-md-12 col-sm-12">
+<div class="container d-flex justify-content-center">
+	{% comment %} <div class="col-md-12 col-sm-12"> {% endcomment %}
 		<div class="full-card">
-		  <div class="deatil-tab-employ tool-tab">
-				<ul class="nav simple nav-tabs" id="simple-design-tab">
-					<li><a href="#settings">Qualification</a></li>
-				</ul>
 				<form class="" method="POST" action= "" enctype="multipart/form-data">
                     {% csrf_token %}
 				<!-- Start All Sec -->
@@ -36,15 +15,15 @@
 						<div class="row no-mrg">
 							<h3>Add Qualification</h3>
 							<div class="edit-pro">
-								<div class="col-md-4 col-sm-6">
+								<div class="form-outline mb-4">
 									<label>Qualification Name</label>
 									<input type="text" class="form-control" placeholder="Enter Qualification Name" value=""name="name" id="name" required >
 								</div>
-								<div class="col-md-4 col-sm-6">
+								<div class="form-outline mb-4">
 									<label>Acronym</label>
 									<input type="text" class="form-control" placeholder="Enter Acronym Qualification " value=""name="acronym" id="acronym" required >
 								</div>
-                               <div class="col-md-4 col-sm-6">
+                               <div class="form-outline mb-4">
 									<label>Stream</label>
 
                                         <select class="form-control" name="stream" value="" id="stream" required>
@@ -59,7 +38,7 @@
                                         </select>
 
 								</div>
-                               <div class="col-md-4 col-sm-6">
+                               <div class="form-outline mb-4">
 									<label>Level</label>
 
                                         <select class="form-control" name="level" value="" id="level" required>
@@ -74,7 +53,7 @@
                                         </select>
 
 								</div>
-                               <div class="col-md-4 col-sm-6">
+                               <div class="form-outline mb-4">
 									<label>Specialization</label>
 
                                         <select class="form-control" name="specialization" value="" id="specialization" required>

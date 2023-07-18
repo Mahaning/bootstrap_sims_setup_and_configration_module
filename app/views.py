@@ -6,12 +6,12 @@ from django.urls import reverse
 from django.views import View
 
 from .common_lib import Commenlib
-from .forms import streamForm, specializationForm, levelForm, QualificationsForm, countryForms, stateForms, distForms, \
+from .forms import EntryTypeForm, streamForm, specializationForm, levelForm, QualificationsForm, countryForms, stateForms, distForms, \
     tallukForms, cityForms, PinForms, MediumForms, LagngugeForms, Religionforms, CasteForms, SubcasteForms, \
     DesignationForm, CommitteForm, FeeCategoryForm
-from .models import stream, specialization, level, Qualifications, Country, State, Dist, Talluk, City, Pincode, medium, \
+from .models import EntryType, stream, specialization, level, Qualifications, Country, State, Dist, Talluk, City, Pincode, medium, \
     Languge, Religion, Caste, Subcaste, Designation, Committe, FeeCategory
-from .serializers import StreamSerializers, CountrySerializers, StateSerializers, SpecializationSerializers, \
+from .serializers import EntryTypeSerializers, StreamSerializers, CountrySerializers, StateSerializers, SpecializationSerializers, \
     LevelSerializers, DistSerializers, TallukSerializers, CitySerializers, PincodeSerializers, mediumSerializers, \
     LangugeSerializers, ReligionSerializers, QualificationsSerializers, DesignationSerializers, CommitteSerializers, \
     FeeCategorySerializers
@@ -1640,3 +1640,78 @@ class Fee_cat_Activation(LoginRequiredMixin, View):
             return HttpResponseRedirect('/View_fee_catogory')
         else:
             return HttpResponseRedirect('/View_fee_catogory')
+        
+
+
+
+class Add_EntryType(LoginRequiredMixin, View):
+    login_url = common_lib.DEFAULT_REDIRECT_PATH['ROOT']
+
+    def get(self, request):
+        return render(request, 'Add_entrytype.html')
+
+    def post(self, request):
+        title = 'Entry type Data'
+        form = EntryTypeForm(request.POST)
+        if form.is_valid():
+            post_form = form.save(commit=False)
+            post_form.users = request.user
+            post_form.save()
+            data = EntryType.objects.all()
+            EntryType_serialized=EntryTypeSerializers(data,many=True)
+            return HttpResponseRedirect('/View_Entry_type', {'title': title, 'Entry_data': EntryType_serialized.data})
+
+
+class Entrytype_data_view(LoginRequiredMixin, View):
+    login_url = common_lib.DEFAULT_REDIRECT_PATH['ROOT']
+
+    def get(self, request):
+        title = "Entry type Data"
+        data = EntryType.objects.all()
+        EntryType_serialized=EntryTypeSerializers(data,many=True)
+        return render(request, 'view_entrytype.html', {'title': title, 'Entry_data': EntryType_serialized.data})
+
+
+class editEntrytype(LoginRequiredMixin, View):
+    login_url = common_lib.DEFAULT_REDIRECT_PATH['ROOT']
+
+    def get(self, request, id):
+        title = "entry type"
+        stm = get_object_or_404(EntryType, id=id)
+        EntryType_serialized=EntryTypeSerializers(stm)
+        return render(request, 'edit_entrytype.html', {'title': title, 'entrydata': EntryType_serialized.data})
+
+    def post(self, request, id):
+        std = get_object_or_404(EntryType, id=id)
+        # ids = student.objects.get(id=id)
+        form = EntryTypeForm(request.POST, request.FILES, instance=std)
+        # print(medium_Form)
+        if form.is_valid():
+            post_form = form.save(commit=False)
+            post_form.save()
+            data = EntryType.objects.all()
+            EntryType_serialized = EntryTypeSerializers(data,many=True)
+            return HttpResponseRedirect('/View_Entry_type')
+
+#
+class delete_EntryType(LoginRequiredMixin, View):
+    login_url = common_lib.DEFAULT_REDIRECT_PATH['ROOT']
+
+    def get(self,request, id):
+        data = EntryType.objects.get(id=id)
+        data.delete()
+        return HttpResponseRedirect('/View_Entry_type')
+#
+#
+class Entry_type_Activation(LoginRequiredMixin, View):
+    login_url = common_lib.DEFAULT_REDIRECT_PATH['ROOT']
+    def get(self,request, action, id):
+        btn = EntryType.objects.get(id=id)
+        if action == 'active' and btn.status == True:
+            EntryType.objects.filter(id=id).update(status=False)
+            return HttpResponseRedirect('/View_Entry_type')
+        elif action == 'deactive' and btn.status == False:
+            EntryType.objects.filter(id=id).update(status=True)
+            return HttpResponseRedirect('/View_Entry_type')
+        else:
+            return HttpResponseRedirect('/View_Entry_type')

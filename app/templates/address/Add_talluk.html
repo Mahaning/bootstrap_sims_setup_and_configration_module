@@ -3,30 +3,9 @@
 {% load static %}
 
 
-<div class="clearfix"></div>
-
-<!-- Title Header Start -->
-<section class="inner-header-title" style="background-image:url(assets/img/banner-10.jpg);">
-	<div class="container">
-<!--		<h1>Admin</h1>-->
-	</div>
-</section>
-<div class="clearfix"></div>
-<!-- Title Header End -->
-
-<!-- Candidate Profile Start -->
-<section class="detail-desc advance-detail-pr gray-bg">
-
-</section>
-
-<section class="full-detail-description full-detail gray-bg">
-<div class="container">
-	<div class="col-md-12 col-sm-12">
+<div class="container d-flex justify-content-center">
+	{% comment %} <div class="col-md-12 col-sm-12"> {% endcomment %}
 		<div class="full-card">
-		  <div class="deatil-tab-employ tool-tab">
-				<ul class="nav simple nav-tabs" id="simple-design-tab">
-					<li><a href="#settings">Talluk</a></li>
-				</ul>
 				<form class="" method="POST" action= "" enctype="multipart/form-data">
                     {% csrf_token %}
 				<!-- Start All Sec -->
@@ -36,15 +15,15 @@
 						<div class="row no-mrg">
 							<h3>Add Talluk</h3>
 							<div class="edit-pro">
-								<div class="col-md-4 col-sm-6">
+								<div class="form-outline mb-4">
 									<label>Talluk Name</label>
 									<input type="text" class="form-control" placeholder="Enter Talluk Name" value=""name="name" id="name" required >
 								</div>
-								<div class="col-md-4 col-sm-6">
+								<div class="form-outline mb-4">
 									<label>Acronym</label>
 									<input type="text" class="form-control" placeholder="acronym" value=""name="acronym" id="acronym" required >
 								</div>
-								<div class="col-md-4 col-sm-6">
+								<div class="form-outline mb-4">
 									<label>District</label>
 
                                         <select class="form-control" name="dist"  id="dist" required>

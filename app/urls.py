@@ -142,6 +142,14 @@ urlpatterns = [
     path('Delete_fee_catogory/<int:id>',views.delete_FeeCatogory.as_view(),name='Delete_fee_catogory'),
 
 
+     path('Add_Entry_type/',views.Add_EntryType.as_view(),name='Add_Entry_type'),
+    path('View_Entry_type/',views.Entrytype_data_view.as_view(),name='View_Entry_type'),
+    path('Edit_Entry_type/<int:id>', views.editEntrytype.as_view(), name='Edit_Entry_type'),
+    path('Delete_Entry_type/<int:id>',views.delete_EntryType.as_view(),name='Delete_Entry_type'),
+    path('Activation_Entry_type/<str:action>/<int:id>',views.Entry_type_Activation.as_view(),name='Activation_Entry_type'),
+
+
+
 
 ]
 

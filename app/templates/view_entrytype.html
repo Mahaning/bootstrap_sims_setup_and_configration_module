@@ -1,0 +1,48 @@
+{% extends "horzontal_dashboard.html" %}
+{% block content %}
+{% load static %}
+
+
+<!--    <div class="clearfix"></div>-->
+
+<!-- Title Header Start -->
+<div class="container justify-content-center">
+<div><h1>{{title}}</h1></div>
+
+<div><div style="margin:20px"><a href="{% url 'app:Add_Entry_type' %}" class="btn-sm  btn-primary" id="Add" style="float:right;text-decoration: none;"><i class="bi bi-plus-square-fill">Add New Data</i></a></div></div>
+<table id="user-roles-records" class="table table-responsive-md table-bordered table-sm table-striped"cellspacing="0" width="100%">
+  <thead>
+    <tr>
+        <th>ID</th>
+      <th>Entry_type Name</th>
+      <th>Acronym</th>
+      <th>status</th>
+        <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in Entry_data %}
+    <tr>
+      <td>{{item.id}}</td>
+      <td>{{item.name}}</td>
+        <td>{{item.acronym}}</td>
+      {% if item.status == True %}
+        <td> Active</td>
+        {% else %}
+      <td> Disabled</td>
+      {% endif %}
+        <td><a href="{% url 'app:Edit_Entry_type' id=item.id %}" class="btn btn-sm btn-success bi bi-pencil-square"id="edit">Edit</a>
+          {% if item.status == True %}
+          <a href="{% url 'app:Activation_Entry_type' action='active' id=item.id %}" class="btn btn-sm btn-primary" id="activbtn"><i class="bi bi-eye"></i>Active </a>
+            {% else %}
+          <a href="{% url 'app:Activation_Entry_type' action='deactive' id=item.id %}" class="btn btn-sm btn-warning" id="deactive"><i class="bi bi-eye-slash"></i>Disabled </a>
+          {% endif %}
+          <a href="{% url 'app:Delete_Entry_type' id=item.id %}" class="btn btn-sm btn-danger" id="delete"><i class="bi bi-trash"></i>Delete</a>
+      </td>
+    </tr>
+  {% endfor %}
+    <!-- Add more rows here -->
+  </tbody>
+</table>
+
+{% endblock %}
