@@ -80,8 +80,8 @@ from django.db import models
 #
 
 class stream(models.Model):
-    name=models.CharField(max_length=250)
-    acronym = models.CharField(max_length=10)
+    name=models.CharField(max_length=250,unique=True)
+    acronym = models.CharField(max_length=10,unique=True)
     description=models.TextField()
     status=models.BooleanField(default=True)
     created_on=models.DateTimeField(auto_now_add=True)
@@ -100,7 +100,7 @@ class specialization(models.Model):
 
 class level(models.Model):
     name=models.CharField(max_length=150)
-    acronym=models.CharField(max_length=10)
+    acronym=models.CharField(max_length=100)
     description=models.TextField()
     status = models.BooleanField(default=True)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -209,8 +209,8 @@ class Religion(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
 class Caste(models.Model):
-    caste_code = models.CharField(max_length=30)
-    caste_name = models.CharField(max_length=30)
+    caste_code = models.CharField(max_length=300)
+    caste_name = models.CharField(max_length=300)
     religion = models.ForeignKey(Religion, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
     created_on = models.DateTimeField(auto_now_add=True)

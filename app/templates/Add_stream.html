@@ -13,7 +13,17 @@
 
 					<div id="settings" class="  active">
 						<div class="row no-mrg">
+
 							<h3>Add Stream</h3>
+							{% if stream_Form.errors %}
+                        <ul class="errorlist">
+                            {% for field in stream_Form %}
+                                {% if field.errors %}
+                                    <li style="color:red">{{ field.label }}: {{ field.errors|join:", " }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
 							<div class="edit-pro">
 								<div class="form-outline mb-4">
 									<label>Stream Name</label>

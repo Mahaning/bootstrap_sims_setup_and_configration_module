@@ -11,8 +11,8 @@ from .forms import EntryTypeForm, streamForm, specializationForm, levelForm, Qua
     DesignationForm, CommitteForm, FeeCategoryForm
 from .models import EntryType, stream, specialization, level, Qualifications, Country, State, Dist, Talluk, City, Pincode, medium, \
     Languge, Religion, Caste, Subcaste, Designation, Committe, FeeCategory
-from .serializers import EntryTypeSerializers, StreamSerializers, CountrySerializers, StateSerializers, SpecializationSerializers, \
-    LevelSerializers, DistSerializers, TallukSerializers, CitySerializers, PincodeSerializers, mediumSerializers, \
+from .serializers import CasteSerializers, EntryTypeSerializers, StreamSerializers, CountrySerializers, StateSerializers, SpecializationSerializers, \
+    LevelSerializers, DistSerializers, SubcasteSerializers, TallukSerializers, CitySerializers, PincodeSerializers, mediumSerializers, \
     LangugeSerializers, ReligionSerializers, QualificationsSerializers, DesignationSerializers, CommitteSerializers, \
     FeeCategorySerializers
 
@@ -63,15 +63,23 @@ class streamView(LoginRequiredMixin, View):
     def post(self, request):
         stream_Form = streamForm(request.POST, request.FILES)
         if stream_Form.is_valid():
-            post_stream_Form = stream_Form.save(commit=False)
-            post_stream_Form.users = request.user
-            post_stream_Form.save()
-            title = "Stream Data"
-            stram = stream.objects.all()
-            stream_serialized = self.streamserializers(stram, many=True)
-            return HttpResponseRedirect('/stream_detail_view', {'title': title, 'streamdata': stream_serialized.data})
+            name=stream_Form.cleaned_data['name']
+            acronym=stream_Form.cleaned_data['acronym']
+            if stream.objects.filter(name=name).exists():
+                stream_Form.add_error('name', ' already exists.')
+            elif stream.objects.filter(acronym=acronym).exists():
+                stream_Form.add_error('acronym', ' already exists.')
+            else:
+                post_stream_Form = stream_Form.save(commit=False)
+                post_stream_Form.users = request.user
+                post_stream_Form.save()
+                title = "Stream Data"
+                stram = stream.objects.all()
+                stream_serialized = self.streamserializers(stram, many=True)
+                return HttpResponseRedirect('/stream_detail_view', {'title': title, 'streamdata': stream_serialized.data})
         else:
-            return HttpResponse("Something Went wrong")
+            # return HttpResponse("Something Went wrong")
+            return render(request, 'Add_stream.html',{'stream_Form':stream_Form})
 
 
 # -------------------------------- View Stream Data -----------------------------------------------------
@@ -166,16 +174,23 @@ class specializationView(LoginRequiredMixin, View):
         specialization_Form = specializationForm(request.POST, request.FILES)
         print(specialization_Form)
         if specialization_Form.is_valid():
-            post_specialization_Form = specialization_Form.save(commit=False)
-            post_specialization_Form.users = request.user
-            post_specialization_Form.save()
-            title = "specialization Data"
-            da = specialization.objects.all()
-            specialization_serialized = SpecializationSerializers(da, many=True)
-            return HttpResponseRedirect('/specialization_view',
-                                        {'title': title, 'spdata': specialization_serialized.data})
-        else:
-            return HttpResponse("Something Went wrong")
+            name = specialization_Form.cleaned_data['name']
+            acronym = specialization_Form.cleaned_data['acronym']
+            if specialization.objects.filter(name=name).exists():
+                specialization_Form.add_error('name', ' already exists.')
+            elif specialization.objects.filter(acronym=acronym).exists():
+                specialization_Form.add_error('acronym', ' already exists.')
+            else:
+                post_specialization_Form = specialization_Form.save(commit=False)
+                post_specialization_Form.users = request.user
+                post_specialization_Form.save()
+                title = "specialization Data"
+                da = specialization.objects.all()
+                specialization_serialized = SpecializationSerializers(da, many=True)
+                return HttpResponseRedirect('/specialization_view',{'title': title, 'spdata': specialization_serialized.data})
+            
+        return render(request, 'Add_specialization.html', {'specialization_Form': specialization_Form})
+
 
 
 # ----------------------------------------View specialization Data------------------------------
@@ -267,15 +282,22 @@ class levelView(LoginRequiredMixin, View):
         level_Form = levelForm(request.POST, request.FILES)
         print(levelForm)
         if level_Form.is_valid():
-            post_level_Form = level_Form.save(commit=False)
-            post_level_Form.users = request.user
-            post_level_Form.save()
-            lvl = level.objects.all()
-            level_serialized = LevelSerializers(lvl, many=True)
-            title = "Strean Data"
-            return HttpResponseRedirect('/level_view', {'title': title, 'data': level_serialized.data})
-        else:
-            return HttpResponse("Something Went wrong")
+            name=level_Form.cleaned_data['name']
+            acronym=level_Form.cleaned_data['acronym']
+            if level.objects.filter(name=name).exists():
+                level_Form.add_error('name', ' already exists.')
+            elif level.objects.filter(acronym=acronym).exists():
+                level_Form.add_error('acronym', ' already exists.')
+            else:
+                post_level_Form = level_Form.save(commit=False)
+                post_level_Form.users = request.user
+                post_level_Form.save()
+                lvl = level.objects.all()
+                level_serialized = LevelSerializers(lvl, many=True)
+                title = "Strean Data"
+                return HttpResponseRedirect('/level_view', {'title': title, 'data': level_serialized.data})
+       
+        return render(request, 'Add_level.html',{'form':level_Form})
 
 
 # # ----------------------------------------View Leve Data------------------------------
@@ -353,6 +375,7 @@ class levelactivation(LoginRequiredMixin, View):
 # -----------------------Add Qualification Data---------------------------------------
 class qualificationView(LoginRequiredMixin, View):
     login_url = common_lib.DEFAULT_REDIRECT_PATH['ROOT']
+    
 
     def get(self, request):
         str = stream.objects.all()
@@ -368,17 +391,30 @@ class qualificationView(LoginRequiredMixin, View):
         Qualifications_Form = QualificationsForm(request.POST, request.FILES)
         print(Qualifications_Form)
         if Qualifications_Form.is_valid():
-            post_Qualifications_Form = Qualifications_Form.save(commit=False)
-            post_Qualifications_Form.users = request.user
-            post_Qualifications_Form.save()
-            # return render(request, 'details.html',{'student':data()})
-            title = 'Qualification data'
-            qpl = Qualifications.objects.all()
-            qualification_serialized=QualificationsSerializers(qpl,many=True)
-            return HttpResponseRedirect('/qualification_view', {'title': title, 'data': qualification_serialized.data})
-        else:
-            return HttpResponse("Something Went wrong")
-
+            name=Qualifications_Form.cleaned_data['name']
+            acronym=Qualifications_Form.cleaned_data['acronym']
+            if Qualifications.objects.filter(name=name).exists():
+                Qualifications_Form.add_error('name', ' already exists.')
+            elif Qualifications.objects.filter(acronym=acronym).exists():
+                Qualifications_Form.add_error('acronym', ' already exists.')
+            else:
+                post_Qualifications_Form = Qualifications_Form.save(commit=False)
+                post_Qualifications_Form.users = request.user
+                post_Qualifications_Form.save()
+                # return render(request, 'details.html',{'student':data()})
+                title = 'Qualification data'
+                qpl = Qualifications.objects.all()
+                qualification_serialized=QualificationsSerializers(qpl,many=True)
+                return HttpResponseRedirect('/qualification_view', {'title': title, 'data': qualification_serialized.data})
+        
+        str = stream.objects.all()
+        spl = specialization.objects.all()
+        lvl = level.objects.all()
+        level_serialized = LevelSerializers(lvl, many=True)
+        specialization_serialized = SpecializationSerializers(spl, many=True)
+        stram_serialized = StreamSerializers(str, many=True)
+        return render(request, 'Add_qualification.html', {"stream": stram_serialized.data, 'spl': specialization_serialized.data, 'level': level_serialized.data,'form':Qualifications_Form})
+    
 
 # ---------------------------------------View Qualification Data---------------------------
 class QualificationView(LoginRequiredMixin, View):
@@ -469,14 +505,23 @@ class countryView(LoginRequiredMixin, View):
         country_Form = countryForms(request.POST, request.FILES)
         print(country_Form)
         if country_Form.is_valid():
-            post_country_Form = country_Form.save(commit=False)
-            post_country_Form.users = request.user
-            post_country_Form.save()
-            title = "Country Data"
-            cd = Country.objects.all()
-            Country_serialized = CountrySerializers(cd, many=True)
-            return HttpResponseRedirect('/country_view', {'title': title, 'countrydata': Country_serialized.data})
+            name=country_Form.cleaned_data['name']
+            acronym=country_Form.cleaned_data['acronym']
+            if Country.objects.filter(name=name).exists():
+                country_Form.add_error('name', ' already exists.')
+            elif Country.objects.filter(acronym=acronym).exists():
+                country_Form.add_error('acronym', ' already exists.')
+            else:
+                post_country_Form = country_Form.save(commit=False)
+                post_country_Form.users = request.user
+                post_country_Form.save()
+                title = "Country Data"
+                cd = Country.objects.all()
+                Country_serialized = CountrySerializers(cd, many=True)
+                return HttpResponseRedirect('/country_view', {'title': title, 'countrydata': Country_serialized.data,'country_Form':country_Form})
 
+        
+        return render(request,'address/Add_country.html',{'form':country_Form})
 
 class countrydataView(LoginRequiredMixin, View):
     login_url = common_lib.DEFAULT_REDIRECT_PATH['ROOT']
@@ -560,14 +605,26 @@ class stateView(LoginRequiredMixin, View):
         state_Form = stateForms(request.POST, request.FILES)
         print(state_Form)
         if state_Form.is_valid():
-            post_state_Form = state_Form.save(commit=False)
-            post_state_Form.users = request.user
+            name=state_Form.cleaned_data['name']
+            acronym=state_Form.cleaned_data['acronym']
+            if State.objects.filter(name=name).exists():
+                state_Form.add_error('name', ' already exists.')
+            elif State.objects.filter(acronym=acronym).exists():
+                state_Form.add_error('acronym', ' already exists.')
+            else:
+                post_state_Form = state_Form.save(commit=False)
+                post_state_Form.users = request.user
 
-            post_state_Form.save()
-            title = "State Data"
-            sd = State.objects.all()
-            state_serialized = StateSerializers(sd, many=True)
-            return HttpResponseRedirect('/state_view', {'title': title, 'statedata': state_serialized.data})
+                post_state_Form.save()
+                title = "State Data"
+                sd = State.objects.all()
+                state_serialized = StateSerializers(sd, many=True)
+                return HttpResponseRedirect('/state_view', {'title': title, 'statedata': state_serialized.data,})
+            
+        
+        cd = Country.objects.all()
+        Country_serialized = CountrySerializers(cd, many=True)
+        return render(request,'address/Add_state.html',{'form':state_Form,'countrydata': Country_serialized.data})
 
 
 class statedataView(LoginRequiredMixin, View):
@@ -653,14 +710,26 @@ class distView(LoginRequiredMixin, View):
         dist_Form = distForms(request.POST)
         print(dist_Form)
         if dist_Form.is_valid():
-            post_dist_Form = dist_Form.save(commit=False)
-            post_dist_Form.users = request.user
+            name=dist_Form.cleaned_data['name']
+            acronym=dist_Form.cleaned_data['acronym']
+            if Dist.objects.filter(name=name).exists():
+                dist_Form.add_error('name', ' already exists.')
+            elif Dist.objects.filter(acronym=acronym).exists():
+                dist_Form.add_error('acronym', ' already exists.')
+            else:
+                post_dist_Form = dist_Form.save(commit=False)
+                post_dist_Form.users = request.user
 
-            post_dist_Form.save()
-            title = "District Data"
-            dd = Dist.objects.all()
-            Dist_serialized = DistSerializers(dd, many=True)
-            return HttpResponseRedirect('/dist_view', {'title': title, 'distdata': Dist_serialized.data})
+                post_dist_Form.save()
+                title = "District Data"
+                dd = Dist.objects.all()
+                Dist_serialized = DistSerializers(dd, many=True)
+                return HttpResponseRedirect('/dist_view', {'title': title, 'distdata': Dist_serialized.data})
+            
+        
+        sd = State.objects.all()
+        state_serialized = StateSerializers(sd, many=True)
+        return render(request,'address/Add_dist.html',{'form':dist_Form,'statedata': state_serialized.data})
 
 
 class distdataView(LoginRequiredMixin, View):
@@ -743,13 +812,25 @@ class tallukView(LoginRequiredMixin, View):
         talluk_Form = tallukForms(request.POST, request.FILES)
         print(talluk_Form)
         if talluk_Form.is_valid():
-            post_talluk_Form = talluk_Form.save(commit=False)
-            post_talluk_Form.users = request.user
-            post_talluk_Form.save()
-            title = "Talluk Data"
-            td = Talluk.objects.all()
-            talluk_serialized = TallukSerializers(td, many=True)
-            return HttpResponseRedirect('/talluk_view', {'title': title, 'tallukdata': talluk_serialized.data})
+            name=talluk_Form.cleaned_data['name']
+            acronym=talluk_Form.cleaned_data['acronym']
+            if Talluk.objects.filter(name=name).exists():
+                talluk_Form.add_error('name', ' already exists.')
+            elif Talluk.objects.filter(acronym=acronym).exists():
+                talluk_Form.add_error('acronym', ' already exists.')
+            else:
+                post_talluk_Form = talluk_Form.save(commit=False)
+                post_talluk_Form.users = request.user
+                post_talluk_Form.save()
+                title = "Talluk Data"
+                td = Talluk.objects.all()
+                talluk_serialized = TallukSerializers(td, many=True)
+                return HttpResponseRedirect('/talluk_view', {'title': title, 'tallukdata': talluk_serialized.data})
+            
+        
+        dd = Dist.objects.all()
+        dist_serialized = DistSerializers(dd, many=True)
+        return render(request,'address/Add_talluk.html',{'form':talluk_Form,'distdata': dist_serialized.data})
 
 
 class tallukdataView(LoginRequiredMixin, View):
@@ -836,14 +917,27 @@ class cityView(LoginRequiredMixin, View):
         city_Form = cityForms(request.POST, request.FILES)
         print(city_Form)
         if city_Form.is_valid():
-            post_city_Form = city_Form.save(commit=False)
-            post_city_Form.users = request.user
-            post_city_Form.save()
-            title = "City Data"
-            ct = City.objects.all()
-            citt_serialized = CitySerializers(ct, many=True)
-            return HttpResponseRedirect('/city_view', {'title': title, 'citydata': citt_serialized.data})
+            name=city_Form.cleaned_data['name']
+            acronym=city_Form.cleaned_data['acronym']
+            if City.objects.filter(name=name).exists():
+                city_Form.add_error('name', ' already exists.')
+            elif City.objects.filter(acronym=acronym).exists():
+                city_Form.add_error('acronym', ' already exists.')
+            else:
+                post_city_Form = city_Form.save(commit=False)
+                post_city_Form.users = request.user
+                post_city_Form.save()
+                title = "City Data"
+                ct = City.objects.all()
+                citt_serialized = CitySerializers(ct, many=True)
+                return HttpResponseRedirect('/city_view', {'title': title, 'citydata': citt_serialized.data})
 
+        
+        dd = Dist.objects.all()
+        Dist_serialized = DistSerializers(dd, many=True)
+        td = Talluk.objects.all()
+        talluk_serialized = TallukSerializers(td, many=True)
+        return render(request,'address/Add_city.html',{'form':city_Form,'tallukdata': talluk_serialized.data, 'distdata': Dist_serialized.data})
 
 class citydataView(LoginRequiredMixin, View):
     login_url = common_lib.DEFAULT_REDIRECT_PATH['ROOT']
@@ -922,13 +1016,24 @@ class pincodeView(LoginRequiredMixin, View):
         Pincode_Form = PinForms(request.POST, request.FILES)
         print(Pincode_Form)
         if Pincode_Form.is_valid():
-            post_Pincode_Form = Pincode_Form.save(commit=False)
-            post_Pincode_Form.users = request.user
-            post_Pincode_Form.save()
-            title = "Pincode Data"
-            pd = Pincode.objects.all()
-            pincode_serialized = PincodeSerializers(pd, many=True)
-            return HttpResponseRedirect('/pincode_view', {'title': title, 'pincodedata': pincode_serialized.data})
+            name=Pincode_Form.cleaned_data['pincode']
+            # acronym=Pincode_Form.cleaned_data['acronym']
+            if Pincode.objects.filter(pincode=name).exists():
+                Pincode_Form.add_error('pincode', ' already exists.')
+            # elif Pincode.objects.filter(acronym=acronym).exists():
+                # Pincode_Form.add_error('acronym', ' already exists.')
+            else:
+                post_Pincode_Form = Pincode_Form.save(commit=False)
+                post_Pincode_Form.users = request.user
+                post_Pincode_Form.save()
+                title = "Pincode Data"
+                pd = Pincode.objects.all()
+                pincode_serialized = PincodeSerializers(pd, many=True)
+                return HttpResponseRedirect('/pincode_view', {'title': title, 'pincodedata': pincode_serialized.data})
+        
+        ct = City.objects.all()
+        city_serialized = CitySerializers(ct, many=True)
+        return render(request,'address/Add_pincode.html',{'form':Pincode_Form,'citydata': city_serialized.data})
 
 
 class pincodedataView(LoginRequiredMixin, View):
@@ -1012,13 +1117,22 @@ class mediumView(LoginRequiredMixin, View):
         # print(medium_Form)
 
         if medium_Form.is_valid():
-            post_medium_Form = medium_Form.save(commit=False)
-            post_medium_Form.users = request.user
-            post_medium_Form.save()
-            title = "Medium Data"
-            mediumdata = medium.objects.all()
-            # medium_serialized=mediumSerializers(mediumdata,many=True)
-            return HttpResponseRedirect('/view_medium')
+            name=medium_Form.cleaned_data['name']
+            acronym=medium_Form.cleaned_data['acronym']
+            if medium.objects.filter(name=name).exists():
+                medium_Form.add_error('name', ' already exists.')
+            elif medium.objects.filter(acronym=acronym).exists():
+                medium_Form.add_error('acronym', ' already exists.')
+            else:
+                post_medium_Form = medium_Form.save(commit=False)
+                post_medium_Form.users = request.user
+                post_medium_Form.save()
+                title = "Medium Data"
+                mediumdata = medium.objects.all()
+                # medium_serialized=mediumSerializers(mediumdata,many=True)
+                return HttpResponseRedirect('/view_medium')
+        
+        return render(request,'Mediam_and_Languge/Add_medium.html',{'form':medium_Form})
 
 
 class medium_data_View(LoginRequiredMixin, View):
@@ -1089,14 +1203,23 @@ class langView(LoginRequiredMixin, View):
     def post(self, request):
         languge_Form = LagngugeForms(request.POST, request.FILES)
         if languge_Form.is_valid():
-            post_languge_Form = languge_Form.save(commit=False)
-            post_languge_Form.users = request.user
-            post_languge_Form.save()
-            title = "Languge Data"
-            ld = Languge.objects.all()
-            languge_serialized = LangugeSerializers(ld, many=True)
-            return HttpResponseRedirect('/view_Languge', {'title': title, 'langdata': languge_serialized.data})
+            name=languge_Form.cleaned_data['name']
+            acronym=languge_Form.cleaned_data['acronym']
+            if Languge.objects.filter(name=name).exists():
+                languge_Form.add_error('name', ' already exists.')
+            elif Languge.objects.filter(acronym=acronym).exists():
+                languge_Form.add_error('acronym', ' already exists.')
+            else:
+                post_languge_Form = languge_Form.save(commit=False)
+                post_languge_Form.users = request.user
+                post_languge_Form.save()
+                title = "Languge Data"
+                ld = Languge.objects.all()
+                languge_serialized = LangugeSerializers(ld, many=True)
+                return HttpResponseRedirect('/view_Languge', {'title': title, 'langdata': languge_serialized.data})
 
+       
+        return render(request,'Mediam_and_Languge/Add_languge.html',{'form':languge_Form})
 
 class lang_data_View( View):
     # login_url = common_lib.DEFAULT_REDIRECT_PATH['ROOT']
@@ -1170,14 +1293,23 @@ class religionView(LoginRequiredMixin, View):
         religion_Form = Religionforms(request.POST, request.FILES)
         # print(medium_Form)
         if religion_Form.is_valid():
-            post_religion_Form = religion_Form.save(commit=False)
-            post_religion_Form.users = request.user
-            post_religion_Form.save()
-            rd = Religion.objects.all()
-            Religion_Serialized = ReligionSerializers(rd, many=True)
-            title = "Religion Data"
-            return HttpResponseRedirect('/view_Religion', {'title': title, 'reldata': Religion_Serialized.data})
+            name=religion_Form.cleaned_data['religion_code']
+            acronym=religion_Form.cleaned_data['religion_name']
+            if Religion.objects.filter(religion_code=name).exists():
+                religion_Form.add_error('religion_code', ' already exists.')
+            elif Religion.objects.filter(religion_name=acronym).exists():
+                religion_Form.add_error('religion_name', ' already exists.')
+            else:
+                post_religion_Form = religion_Form.save(commit=False)
+                post_religion_Form.users = request.user
+                post_religion_Form.save()
+                rd = Religion.objects.all()
+                Religion_Serialized = ReligionSerializers(rd, many=True)
+                title = "Religion Data"
+                return HttpResponseRedirect('/view_Religion', {'title': title, 'reldata': Religion_Serialized.data})
 
+        
+        return render(request,'caste/Add_religion.html',{'form':religion_Form})
 
 class religiondata(LoginRequiredMixin, View):
     login_url = common_lib.DEFAULT_REDIRECT_PATH['ROOT']
@@ -1243,20 +1375,33 @@ class casteView(LoginRequiredMixin, View):
 
     def get(self, request):
         titile = 'caste'
-        rd = Religion.objects.all()
-        return render(request, 'caste/Add_caste.html', {'title': titile, 'reldata': rd})
+        religiondata = Religion.objects.all()
+        Religion_Serialized = ReligionSerializers(religiondata, many=True)
+        return render(request, 'caste/Add_caste.html', {'title': titile, 'reldata': Religion_Serialized.data})
 
     def post(self, request):
         caste_Form = CasteForms(request.POST, request.FILES)
         if caste_Form.is_valid():
-            post_caste_Form = caste_Form.save(commit=False)
-            post_caste_Form.users = request.user
-            post_caste_Form.save()
-            cd = Caste.objects.all()
-            rd = Religion.objects.all()
-            title = 'Caste data'
-            return HttpResponseRedirect('/view_Caste', {'title': title, 'castedata': cd, 'reldata': rd})
+            name=caste_Form.cleaned_data['caste_code']
+            acronym=caste_Form.cleaned_data['caste_name']
+            if Caste.objects.filter(caste_code=name).exists():
+                caste_Form.add_error('caste_code', ' already exists.')
+            elif Caste.objects.filter(caste_name=acronym).exists():
+                caste_Form.add_error('caste_name', ' already exists.')
+            else:
+                post_caste_Form = caste_Form.save(commit=False)
+                post_caste_Form.users = request.user
+                post_caste_Form.save()
+                cd = Caste.objects.all()
+                rd = Religion.objects.all()
+                title = 'Caste data'
+                return HttpResponseRedirect('/view_Caste')
 
+        
+        titile = 'caste'
+        religiondata = Religion.objects.all()
+        Religion_Serialized = ReligionSerializers(religiondata, many=True)
+        return render(request,'caste/Add_caste.html',{'form':caste_Form,'title': titile, 'reldata': Religion_Serialized.data})
 
 class castedata(LoginRequiredMixin, View):
     login_url = common_lib.DEFAULT_REDIRECT_PATH['ROOT']
@@ -1264,8 +1409,10 @@ class castedata(LoginRequiredMixin, View):
     def get(self, request):
         title = 'Caste'
         castedata = Caste.objects.all()
-        rd = Religion.objects.all()
-        return render(request, 'caste/caste_view.html', {'title': title, 'castedata': castedata, 'reldata': rd})
+        caste_Serialized=CasteSerializers(castedata,many=True)
+        # rd = Religion.objects.all()
+        
+        return render(request, 'caste/caste_view.html', {'title': title, 'castedata': caste_Serialized.data})
 
 
 class Castedata_edit(LoginRequiredMixin, View):
@@ -1274,8 +1421,10 @@ class Castedata_edit(LoginRequiredMixin, View):
     def get(self, request, id):
         title = "Edit Talluk"
         stm = get_object_or_404(Caste, id=id)
+        caste_Serialized=CasteSerializers(stm)
         rd = Religion.objects.all()
-        return render(request, 'caste/Edit_caste.html', {'title': title, 'castedata': stm, 'reldata': rd})
+        Religion_Serialized = ReligionSerializers(rd, many=True)
+        return render(request, 'caste/Edit_caste.html', {'title': title, 'castedata': caste_Serialized.data, 'reldata': Religion_Serialized.data})
 
     def post(self, request, id):
         # std = get_object_or_404(Caste, id=id)
@@ -1289,7 +1438,7 @@ class Castedata_edit(LoginRequiredMixin, View):
             post_Form = _Form.save(commit=False)
             post_Form.save()
             cd = Caste.objects.all()
-            return HttpResponseRedirect('/view_Caste', {'title': title, 'castedata': cd})
+            return HttpResponseRedirect('/view_Caste')
 
 
 class Caste_delete(LoginRequiredMixin, View):
@@ -1302,7 +1451,7 @@ class Caste_delete(LoginRequiredMixin, View):
         title = 'Caste Data'
         cd = Caste.objects.all()
         rd = Religion.objects.all()
-        return HttpResponseRedirect('/view_Caste', {'title': title, 'castedata': cd, 'reldata': rd})
+        return HttpResponseRedirect('/view_Caste')
 
 
 class Caste_activation(LoginRequiredMixin, View):
@@ -1315,12 +1464,12 @@ class Caste_activation(LoginRequiredMixin, View):
         cd = Caste.objects.all()
         if action == 'active' and btn.status == True:
             Caste.objects.filter(id=id).update(status=False)
-            return HttpResponseRedirect('/view_Caste', {'title': title, 'castedata': cd, 'reldata': rd})
+            return HttpResponseRedirect('/view_Caste')
         elif action == 'deactive' and btn.status == False:
             Caste.objects.filter(id=id).update(status=True)
-            return HttpResponseRedirect('/view_Caste', {'title': title, 'castedata': cd, 'reldata': rd})
+            return HttpResponseRedirect('/view_Caste')
         else:
-            return HttpResponseRedirect('/view_Caste', {'title': title, 'castedata': cd, 'reldata': rd})
+            return HttpResponseRedirect('/view_Caste')
 
 
 class subcasteView(LoginRequiredMixin, View):
@@ -1329,7 +1478,8 @@ class subcasteView(LoginRequiredMixin, View):
     def get(self, request):
         titile = 'Subcaste'
         castedata = Caste.objects.all()
-        return render(request, 'caste/Add_subcaste.html', {'title': titile, 'castedata': castedata})
+        caste_Serialized=CasteSerializers(castedata,many=True)
+        return render(request, 'caste/Add_subcaste.html', {'title': titile, 'castedata': caste_Serialized.data})
         # return HttpResponseRedirect('view_Subcaste')
 
     def post(self, request):
@@ -1337,12 +1487,22 @@ class subcasteView(LoginRequiredMixin, View):
         # subcaste=Subcaste.objects.all()
         subcaste_Form = SubcasteForms(request.POST, request.FILES)
         if subcaste_Form.is_valid():
-            post_subcaste_Form = subcaste_Form.save(commit=False)
-            post_subcaste_Form.users = request.user
-            post_subcaste_Form.save()
-            scd = Subcaste.objects.all()
-            return HttpResponseRedirect('/view_Subcaste', {'title': title, 'subcastedata': scd})
-
+            name=subcaste_Form.cleaned_data['subcaste_name']
+            acronym=subcaste_Form.cleaned_data['subcaste_code']
+            if Subcaste.objects.filter(subcaste_name=name).exists():
+                subcaste_Form.add_error('subcaste_name', ' already exists.')
+            elif Subcaste.objects.filter(subcaste_code=acronym).exists():
+                subcaste_Form.add_error('subcaste_code', ' already exists.')
+            else:
+                post_subcaste_Form = subcaste_Form.save(commit=False)
+                post_subcaste_Form.users = request.user
+                post_subcaste_Form.save()
+                scd = Subcaste.objects.all()
+                return HttpResponseRedirect('/view_Subcaste')
+        
+        castedata = Caste.objects.all()
+        caste_Serialized=CasteSerializers(castedata,many=True)
+        return render(request,'caste/Add_subcaste.html',{'form':subcaste_Form,'castedata': caste_Serialized.data})
 
 class subcastedata(LoginRequiredMixin, View):
     login_url = common_lib.DEFAULT_REDIRECT_PATH['ROOT']
@@ -1350,7 +1510,8 @@ class subcastedata(LoginRequiredMixin, View):
     def get(self, request):
         title = 'SubCaste'
         subcastedata = Subcaste.objects.all()
-        return render(request, 'caste/subcaste_view.html', {'title': title, 'subcastedata': subcastedata})
+        subcaste_serialized=SubcasteSerializers(subcastedata,many=True)
+        return render(request, 'caste/subcaste_view.html', {'title': title, 'subcastedata': subcaste_serialized.data})
 
 
 class subcastedata_edit(LoginRequiredMixin, View):
@@ -1359,9 +1520,11 @@ class subcastedata_edit(LoginRequiredMixin, View):
     def get(self, request, id):
         title = 'Sub Caste'
         stm = get_object_or_404(Subcaste, id=id)
+        subcaste_serialized=SubcasteSerializers(stm)
         # subcastedata = Subcaste.objects.all()
-        cd = Caste.objects.all()
-        return render(request, 'caste/Edit_subcaste.html', {'title': title, 'subcastedata': stm, 'castedata': cd})
+        castedata = Caste.objects.all()
+        caste_Serialized=CasteSerializers(castedata)
+        return render(request, 'caste/Edit_subcaste.html', {'title': title, 'subcastedata': subcaste_serialized.data, 'castedata': caste_Serialized.data})
 
     def post(self, request, id):
         td = get_object_or_404(Subcaste, id=id)
@@ -1372,7 +1535,7 @@ class subcastedata_edit(LoginRequiredMixin, View):
             post_form.save()
             title = "Sub Caste Data"
             scd = Subcaste.objects.all()
-            return HttpResponseRedirect('/view_Subcaste', {'title': title, 'subcastedata': scd})
+            return HttpResponseRedirect('/view_Subcaste')
 
 
 class SubCaste_delete(LoginRequiredMixin, View):
@@ -1384,7 +1547,7 @@ class SubCaste_delete(LoginRequiredMixin, View):
         data.delete()
         title = 'SubCaste'
         scd = Subcaste.objects.all()
-        return HttpResponseRedirect('/view_Subcaste', {'title': title, 'subcastedata': scd})
+        return HttpResponseRedirect('/view_Subcaste')
 
 
 class Subcaste_activation(LoginRequiredMixin, View):
@@ -1396,13 +1559,13 @@ class Subcaste_activation(LoginRequiredMixin, View):
         scd = Subcaste.objects.all()
         if action == 'active' and btn.status == True:
             Subcaste.objects.filter(id=id).update(status=False)
-            return HttpResponseRedirect('/view_Subcaste', {'title': title, 'subcastedata': scd})
+            return HttpResponseRedirect('/view_Subcaste')
 
         elif action == 'deactive' and btn.status == False:
             Subcaste.objects.filter(id=id).update(status=True)
-            return HttpResponseRedirect('/view_Subcaste', {'title': title, 'subcastedata': scd})
+            return HttpResponseRedirect('/view_Subcaste')
         else:
-            return HttpResponseRedirect('/view_Subcaste', {'title': title, 'subcastedata': scd})
+            return HttpResponseRedirect('/view_Subcaste')
 
 
 
@@ -1418,12 +1581,23 @@ class designationView(LoginRequiredMixin, View):
         title = 'Designation Data'
         form = DesignationForm(request.POST)
         if form.is_valid():
-            post_form = form.save(commit=False)
-            post_form.users = request.user
-            post_form.save()
-            data = Designation.objects.all()
-            designation_serialized=DesignationSerializers(data,many=True)
-            return HttpResponseRedirect('/View_Designation', {'title': title, 'designationdata': designation_serialized.data})
+            name=form.cleaned_data['name']
+            acronym=form.cleaned_data['acronym']
+            if Designation.objects.filter(name=name).exists():
+                form.add_error('name', ' already exists.')
+            elif Designation.objects.filter(acronym=acronym).exists():
+                form.add_error('acronym', ' already exists.')
+            else:
+
+                post_form = form.save(commit=False)
+                post_form.users = request.user
+                post_form.save()
+                data = Designation.objects.all()
+                designation_serialized=DesignationSerializers(data,many=True)
+                return HttpResponseRedirect('/View_Designation', {'title': title, 'designationdata': designation_serialized.data})
+            
+        
+        return render(request,'Add_Designation.html',{'form':form})
 
 
 class designation_data_view(LoginRequiredMixin, View):
@@ -1499,12 +1673,22 @@ class View_Add_Committe(LoginRequiredMixin, View):
         title = 'Designation Data'
         form = CommitteForm(request.POST)
         if form.is_valid():
-            post_form = form.save(commit=False)
-            post_form.users = request.user
-            post_form.save()
-            data = Committe.objects.all()
-            committe_serialized=CommitteSerializers(data,many=True)
-            return HttpResponseRedirect('/View_Committe', {'title': title, 'view_committe': committe_serialized.data})
+            name=form.cleaned_data['name']
+            acronym=form.cleaned_data['acronym']
+            if Committe.objects.filter(name=name).exists():
+                form.add_error('name', ' already exists.')
+            elif Committe.objects.filter(acronym=acronym).exists():
+                form.add_error('acronym', ' already exists.')
+            else:
+                post_form = form.save(commit=False)
+                post_form.users = request.user
+                post_form.save()
+                data = Committe.objects.all()
+                committe_serialized=CommitteSerializers(data,many=True)
+                return HttpResponseRedirect('/View_Committe', {'title': title, 'view_committe': committe_serialized.data})
+            
+        
+        return render(request,'Add_committe.html',{'form':form})
 
 
 class committe_data_view(LoginRequiredMixin, View):
@@ -1579,12 +1763,21 @@ class View_Add_Catogory(LoginRequiredMixin, View):
         title = 'Fee Catogory Data'
         form = FeeCategoryForm(request.POST)
         if form.is_valid():
-            post_form = form.save(commit=False)
-            post_form.users = request.user
-            post_form.save()
-            data = FeeCategory.objects.all()
-            feecatgory_serialized=FeeCategorySerializers(data,many=True)
-            return HttpResponseRedirect('/View_fee_catogory', {'title': title, 'view_feecat': feecatgory_serialized.data})
+            name=form.cleaned_data['name']
+            acronym=form.cleaned_data['acronym']
+            if FeeCategory.objects.filter(name=name).exists():
+                form.add_error('name', ' already exists.')
+            elif FeeCategory.objects.filter(acronym=acronym).exists():
+                form.add_error('acronym', ' already exists.')
+            else:
+                post_form = form.save(commit=False)
+                post_form.users = request.user
+                post_form.save()
+                data = FeeCategory.objects.all()
+                feecatgory_serialized=FeeCategorySerializers(data,many=True)
+                return HttpResponseRedirect('/View_fee_catogory', {'title': title, 'view_feecat': feecatgory_serialized.data})
+        
+        return render(request,'Add_fee_cat.html',{'form':form})
 
 
 class Fee_cat_data_view(LoginRequiredMixin, View):
@@ -1654,12 +1847,22 @@ class Add_EntryType(LoginRequiredMixin, View):
         title = 'Entry type Data'
         form = EntryTypeForm(request.POST)
         if form.is_valid():
-            post_form = form.save(commit=False)
-            post_form.users = request.user
-            post_form.save()
-            data = EntryType.objects.all()
-            EntryType_serialized=EntryTypeSerializers(data,many=True)
-            return HttpResponseRedirect('/View_Entry_type', {'title': title, 'Entry_data': EntryType_serialized.data})
+            name=form.cleaned_data['name']
+            acronym=form.cleaned_data['acronym']
+            if EntryType.objects.filter(name=name).exists():
+                form.add_error('name', ' already exists.')
+            elif EntryType.objects.filter(acronym=acronym).exists():
+                form.add_error('acronym', ' already exists.')
+            else:
+                post_form = form.save(commit=False)
+                post_form.users = request.user
+                post_form.save()
+                data = EntryType.objects.all()
+                EntryType_serialized=EntryTypeSerializers(data,many=True)
+                return HttpResponseRedirect('/View_Entry_type', {'title': title, 'Entry_data': EntryType_serialized.data})
+            
+        
+        return render(request,'Add_entrytype.html',{'form':form})
 
 
 class Entrytype_data_view(LoginRequiredMixin, View):

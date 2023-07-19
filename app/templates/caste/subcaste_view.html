@@ -14,7 +14,7 @@
   <thead>
     <tr>
         <th>ID</th>
-      <th>subcaste Name</th>
+      <th>subcaste Code</th>
       <th>subcaste_name</th>
         <th>Caste </th>
         <th>Actions</th>
@@ -26,7 +26,7 @@
       <td>{{item.id}}</td>
       <td>{{item.subcaste_code}}</td>
         <td>{{item.subcaste_name}}</td>
-       <td>{{item.caste.caste_name}}</td>
+       <td>{{item.caste}}</td>
 
 
      <td><a href="{% url 'app:edit_Subcaste' id=item.id %}" class="btn btn-sm btn-success bi bi-pencil-square"id="edit">Edit</a>

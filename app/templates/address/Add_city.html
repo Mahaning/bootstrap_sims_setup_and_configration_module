@@ -10,6 +10,15 @@
                     {% csrf_token %}
 						<div class="row no-mrg">
 							<h3>Add City</h3>
+							{% if form.errors %}
+                        <ul class="errorlist">
+                            {% for field in form %}
+                                {% if field.errors %}
+                                    <li style="color:red">{{ field.label }}: {{ field.errors|join:", " }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
 							<div class="edit-pro">
 								<div class="form-outline mb-4">
 									<label>City Name</label>

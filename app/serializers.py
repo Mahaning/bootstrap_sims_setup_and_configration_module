@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.fields import ReadOnlyField
 
-from .models import EntryType, stream, specialization, Country, State, level, Qualifications, Dist, Talluk, City, Pincode, medium, \
+from .models import Caste, EntryType, stream, specialization, Country, State, level, Qualifications, Dist, Talluk, City, Pincode, medium, \
     Languge, Religion, Subcaste, Designation, Committe, FeeCategory
 
 
@@ -153,6 +153,22 @@ class ReligionSerializers(serializers.ModelSerializer):
         fields='__all__'
 
 
+class CasteSerializers(serializers.ModelSerializer):
+    religion = serializers.SerializerMethodField()
+    religion_id = ReadOnlyField(source='religion.id')
+    religion_status = ReadOnlyField(source='religion.status')
+    # religion_name=ReadOnlyField(source='religion.religion_name')
+
+
+    @staticmethod
+    def get_religion(obj):
+        return obj.religion.religion_name
+
+    class Meta:
+        model = Caste
+        fields = '__all__'
+
+
 class SubcasteSerializers(serializers.ModelSerializer):
     caste = serializers.SerializerMethodField()
     caste_id = ReadOnlyField(source='caste.id')
@@ -160,7 +176,7 @@ class SubcasteSerializers(serializers.ModelSerializer):
 
     @staticmethod
     def get_caste(obj):
-        return obj.caste.name()
+        return obj.caste.caste_name
 
     class Meta:
         model = Subcaste

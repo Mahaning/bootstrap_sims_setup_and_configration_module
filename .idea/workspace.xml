@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="02da6928-d602-448e-8925-e9c980a50991" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/setup_and_config.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Add_Designation.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Add_Designation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Add_committe.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Add_committe.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Add_entrytype.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Add_entrytype.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Add_fee_cat.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Add_fee_cat.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Add_level.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Add_level.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Add_qualification.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Add_qualification.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Add_specialization.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Add_specialization.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Add_stream.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Add_stream.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Mediam_and_Languge/Add_languge.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Mediam_and_Languge/Add_languge.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/Mediam_and_Languge/Add_medium.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/Mediam_and_Languge/Add_medium.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/address/Add_city.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/address/Add_city.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/address/Add_country.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/address/Add_country.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/address/Add_dist.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/address/Add_dist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/address/Add_pincode.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/address/Add_pincode.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/address/Add_state.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/address/Add_state.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/address/Add_talluk.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/address/Add_talluk.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/address/State_view.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/address/State_view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/caste/Add_caste.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/caste/Add_caste.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/caste/Add_religion.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/caste/Add_religion.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/caste/Add_subcaste.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/caste/Add_subcaste.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/horzontal_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/horzontal_dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/views.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Smh3kyPepMPUcHNZURWV52Gm0e" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="02da6928-d602-448e-8925-e9c980a50991" name="Changes" comment="" />
+      <created>1689757466851</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1689757466851</updated>
+    </task>
+    <servers />
+  </component>
+</project>

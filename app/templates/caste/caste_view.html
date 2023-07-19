@@ -26,7 +26,7 @@
       <td>{{item.id}}</td>
       <td>{{item.caste_code}}</td>
         <td>{{item.caste_name}}</td>
-        <td>{{item.religion.religion_name}}</td>
+        <td>{{item.religion}}</td>
 
      <td><a href="{% url 'app:edit_Caste' id=item.id %}" class="btn btn-sm btn-success bi bi-pencil-square"id="edit">Edit</a>
             {% if item.status == True %}

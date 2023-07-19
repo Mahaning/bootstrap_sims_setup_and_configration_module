@@ -14,6 +14,15 @@
 					<div id="settings" class="  active">
 						<div class="row no-mrg">
 							<h3>Add Fee Catagory</h3>
+							{% if form.errors %}
+                        <ul class="errorlist">
+                            {% for field in form %}
+                                {% if field.errors %}
+                                    <li style="color:red">{{ field.label }}: {{ field.errors|join:", " }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
 							<div class="edit-pro">
 								<div class="form-outline mb-4">
 									<label>category Name</label>
@@ -21,7 +30,7 @@
 								</div>
 								<div class="form-outline mb-4">
 									<label>Fee Type:</label>
-									  <select  class="form-control" id="fee_type" name="fee_type" id="fee_type" required>>
+									  <select  class="form-control" id="fee_type" name="fee_type" `` required>>
 										<option value="">Choose...</option>
 										<option value="Mandatory">Mandatory</option>
 										<option value="Recursive">Recursive</option>
